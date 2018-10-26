@@ -1,6 +1,5 @@
-export INPUTRC="$d/config/.inputrc"
 # Read the inputrc file
-bind -f $INPUTRC;
+bind -f "/mnt/c/Users/Joey/Documents/dev/config/.inputrc";
 
 # terminal prompt colour = cyan
 terminalPromptColour=6;
