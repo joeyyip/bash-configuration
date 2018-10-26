@@ -11,10 +11,10 @@ set timeoutlen=3000 " Set timeout for key mappings (milliseconds)
 "
 
 " Setting key combination to keyboard output
-execute "set <A-j>=∆"
-execute "set <A-k>=˚"
-execute "set <A-h>=˙"
-execute "set <A-l>=¬"
+execute "set <A-j>=\ej"
+execute "set <A-k>=\ek"
+execute "set <A-h>=\eh"
+execute "set <A-l>=\el"
 
 " Navigation
 nnoremap <C-j> :tabnext<CR>
@@ -58,8 +58,8 @@ set showmode            " Displays, in insert mode, whether 'paste' is turned on
 "
 
 syntax on
-set background=light
-colorscheme solarized
+set background=dark
+colorscheme desert
 set colorcolumn=81,101
 highlight Visual ctermbg=LightGray ctermfg=DarkGray
 highlight colorcolumn ctermbg=Gray ctermfg=Black guibg=Gray guifg=Black
@@ -71,8 +71,12 @@ set hlsearch " Highlight search results
 set incsearch " Search as you type 
 set number " Line numbers
 set ruler " Show cursor's line and column number
+"set guicursor=a:blinkon0
 
+"
 " Indentation
+"
+
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -80,9 +84,12 @@ set autoindent
 set smartindent
 set smarttab
 set backspace=indent,eol,start
+" autocmd BufNewFile,BufRead *.sol set formatoptions+=r
 
-autocmd BufNewFile,BufRead *.sol set formatoptions+=r
-
+" File specific indentation rules
+autocmd Filetype html setlocal shiftwidth=2 softtabstop=2
+" Disable smart indenting for python (smart indenting affects python comments)
+autocmd Filetype python setlocal nosmartindent
 
 "
 " General Functionality
@@ -94,19 +101,17 @@ set modelines=0
 set wildmenu
 set wildmode=longest:full
 set wrap
-" Wrap line on an actual word boundary rather than in the middle
-set linebreak       
+set linebreak " Wrap line on an actual word boundary rather than in the middle
 
-" Persistent undo
-if !isdirectory($HOME."/.dotfiles/vim/undodir")
-    call mkdir($HOME."/.dotfiles/vim/undodir", "p")
-endif
-set undodir=~/.vim/undodir
-set undofile
-set undolevels=1000     " Maximum number of changes that can be undone
-set undoreload=10000    " Maximum number of lines to save for undo on a buffer
-                        " reload
-
+"" Persistent undo
+"if !isdirectory($HOME."/.dotfiles/vim/undodir")
+"    call mkdir($HOME."/.dotfiles/vim/undodir", "p")
+"endif
+"set undodir=~/.vim/undodir
+"set undofile
+"set undolevels=1000     " Maximum number of changes that can be undone
+"set undoreload=10000    " Maximum number of lines to save for undo on a buffer
+"                        " reload
 
 "
 " Gui specific
@@ -132,7 +137,6 @@ endif
 :command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 :command! -complete=file -nargs=1 Rpdfformat :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
 
-
 "
 " Plugins
 "
@@ -141,13 +145,13 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/scrooloose/nerdtree'
+Plug 'https://github.com/scrooloose/nerdcommenter'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 Plug 'https://github.com/Yggdroot/indentLine'
 Plug 'https://github.com/scrooloose/syntastic'
-Plug 'https://github.com/scrooloose/nerdcommenter'
 Plug 'https://github.com/jeetsukumaran/vim-buffergator'
 Plug 'https://github.com/elzr/vim-json'
-Plug 'https://github.com/tomlion/vim-solidity'
+"Plug 'https://github.com/tomlion/vim-solidity' " ethereum script language
 call plug#end()
 
 " Required for plugin support
@@ -177,12 +181,14 @@ let g:ctrlp_max_files = 0
 " Settings for Yggdroot/indentLine
 "let g:indentLine_char="|"
 let g:indentLine_indentLevel=25
-let g:indentLine_color_term=7
+let g:indentLine_color_term=7   " DarkGray=8, Black=0, DarkBlue=4, DarkRed=1
 nnoremap <silent> <leader>il :IndentLinesToggle<CR>
 
 " Settings for scrooloose/syntastic
 " Use :help syntastic
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args = '--ignore=W291,W293,W391,E501,E302,E303,E265'
 
 " Settings for scrooloose/nerdcommenter
 let g:NERDSpaceDelims = 1
