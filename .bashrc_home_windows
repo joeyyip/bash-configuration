@@ -1,40 +1,28 @@
+export INPUTRC="$d/config/.inputrc"
+# Read the inputrc file
+bind -f $INPUTRC;
 
-# Machine specific configuration
-if [ `hostname` == "ironman" ]; then
-
-    export d="/mnt/c/Users/Joey/Documents/dev"
-    inputrcfile="$d/config/.inputrc"
-    # alias p='ssh -l joey ubuntu'
-
-    # terminal prompt colour = cyan
-    terminalPromptColour=6;
-#
-# elif [ `hostname` == "ubuntu" ]; then
-#
-#     export d="/home/joey/dev"
-#     export du="/home/joey/devubuntu"
-#     inputrcfile="$d/config/.inputrc";
-#     export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64";
-#     ANDROID_HOME="~/android-sdk-linux";
-#     PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools";
-#     export PYTHONPATH="$PYTHONPATH:$d/openai/gym"
-#
-#     # terminal prompt colour = green
-#     terminalPromptColour=2;
-fi
-
-if [ -f $inputrcfile ]; then
-
-    export INPUTRC=$inputrcfile
-
-    # Read the inputrc file
-    bind -f $INPUTRC;
-fi
-
+# terminal prompt colour = cyan
+terminalPromptColour=6;
 
 # Terminal prompt
 export PS1="\[$(tput setaf $terminalPromptColour)\]\@ \u@\h:\w>\[$(tput sgr0)\] 
 "
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+# append to the history file, don't overwrite it
+shopt -s histappend
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Expand variables with tab
+shopt -s direxpand
+
+# Set the size of core files
+ulimit -c unlimited
 
 # Aliasing common commands to prevent screw ups
 #alias rm='trash-put'
@@ -43,10 +31,5 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 
-# Expand variables with tab
-shopt -s direxpand
-
-# Set the size of core files
-ulimit -c unlimited
-
-# alias git='/mnt/c/Program\ Files/Git/cmd/git.exe'
+# Export shortcuts
+export d="/mnt/c/Users/Joey/Documents/dev"
